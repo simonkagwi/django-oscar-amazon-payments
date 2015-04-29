@@ -1,0 +1,3 @@
+*.pyc
+sandbox/public/
+sandbox/db.sqlite

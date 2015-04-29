@@ -1,0 +1,19 @@
+{% extends 'oscar/basket/basket.html' %}
+{% load thumbnail %}
+{% load i18n %}
+{% load url from future %}
+
+{% block extrahead %}
+{{ block.super }}
+<style type="text/css">
+    table.cart td.actions img{
+        width: auto !important;
+    }
+</style>
+<script type='text/javascript'>
+    window.onAmazonLoginReady = function() {
+        amazon.Login.setClientId('{{ amazon_payments_client_id }}');
+    };
+</script>
+<script type='text/javascript' src='https://static-na.payments-amazon.com/OffAmazonPayments/us{% if not amazon_payments_is_live %}/sandbox{% endif %}/js/Widgets.js?sellerId={{ amazon_payments_seller_id }}'></script>
+{% endblock %}

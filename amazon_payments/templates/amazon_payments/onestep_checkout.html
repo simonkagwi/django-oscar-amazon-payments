@@ -1,0 +1,109 @@
+{% extends "oscar/checkout/checkout.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+<script type='text/javascript'>
+window.onAmazonLoginReady = function() {
+    amazon.Login.setClientId('{{ amazon_payments_client_id }}');
+};
+</script>
+<script type='text/javascript' src='https://static-na.payments-amazon.com/OffAmazonPayments/us{% if not amazon_payments_is_live %}/sandbox{% endif %}/js/Widgets.js?sellerId={{ amazon_payments_seller_id }}'></script>
+{% endblock extrahead %}
+
+{% block content %}
+{% if error %}
+    <div class="alert alert-error">
+        {{ error }}
+    </div>
+{% endif %}
+{% block order_contents %}{{ block.super }}{% endblock %}
+<div class="row-fluid">
+{% block shipping_method %}
+<div class="span6">
+    <div class="sub-header">
+        <h2>{% trans "Shipping" %}</h2>
+    </div>
+    <div id="addressBookWidgetDiv"></div>
+    <script type="text/javascript">
+    new OffAmazonPayments.Widgets.AddressBook({
+        sellerId: '{{ amazon_payments_seller_id }}',
+        agreementType: 'BillingAgreement',
+        amazonBillingAgreementId: '{{ amazon_payments_billing_agreement_id }}',
+        design: {
+            size : { 
+                width:'400px', 
+                height:'260px'
+            }
+        },
+        onError: function(error) {
+            if (!(document.getElementById('amazon_error_code').value || document.getElementById('amazon_error_message').value)){
+                document.getElementById('amazon_error_code').value = error.getErrorCode();
+                document.getElementById('amazon_error_message').value = error.getErrorMessage();
+                document.getElementById('amazon_place_order').submit();
+            }
+        }
+    }).bind("addressBookWidgetDiv");
+    </script>
+</div>
+{% endblock shipping_method %}
+
+{% block payment_details %}
+<div class="span6">
+    <div class="sub-header">
+        <h2>{% trans "Payment" %}</h2>
+    </div>
+    <div id="walletWidgetDiv"></div>
+    <script type="text/javascript">
+    new OffAmazonPayments.Widgets.Wallet({
+        sellerId: '{{ amazon_payments_seller_id }}',
+        agreementType: 'BillingAgreement',
+        amazonBillingAgreementId: '{{ amazon_payments_billing_agreement_id }}',
+        design: {
+            size : {width:'400px', height:'260px'}
+        },
+        onError: function(error) {
+            if (!(document.getElementById('amazon_error_code').value || document.getElementById('amazon_error_message').value)){
+                document.getElementById('amazon_error_code').value = error.getErrorCode();
+                document.getElementById('amazon_error_message').value = error.getErrorMessage();
+                document.getElementById('amazon_place_order').submit();
+            }
+        }
+    }).bind("walletWidgetDiv");
+    </script>
+    {% if basket.has_subscriptions %}
+    <div class="clearfix"></div>
+    <strong>Your order contains come subscription items. Please authorize us to charge the future payments for the subscription items to your Amazon account.</strong>
+    <div id="consentDiv"></div>
+    <script type="text/javascript">
+    new OffAmazonPayments.Widgets.Consent({
+        sellerId: '{{ amazon_payments_seller_id }}',
+        agreementType: 'BillingAgreement',
+        amazonBillingAgreementId: '{{ amazon_payments_billing_agreement_id }}',
+        design: {
+            size : { 
+                width:'400px', 
+                height:'140px'
+            }
+        },
+        onError: function(error) {
+            if (!(document.getElementById('amazon_error_code').value || document.getElementById('amazon_error_message').value)){
+                document.getElementById('amazon_error_code').value = error.getErrorCode();
+                document.getElementById('amazon_error_message').value = error.getErrorMessage();
+                document.getElementById('amazon_place_order').submit();
+            }
+        }
+    }).bind("consentDiv");
+    </script>
+    {% endif %}
+</div>
+{% endblock payment_details %}
+</div>
+{% block place_order %}
+<form method="post" class="text-right" style="padding:30px 0;">
+    {% csrf_token %}
+    <input type="hidden" id="amazon_error_code" name="amazon_error_code" value="" />
+    <input type="hidden" id="amazon_error_message" name="amazon_error_message" value="" />
+    <input type="submit" class="btn btn-primary" name="place_order" id="place_order" value="Place order" />
+</form>
+{% endblock place_order %}
+{% endblock content %}

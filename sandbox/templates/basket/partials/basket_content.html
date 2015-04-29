@@ -1,0 +1,57 @@
+{% extends 'oscar/basket/partials/basket_content.html' %}
+{% load url from future %}
+{% load i18n %}
+
+{% block formactions %}
+<div class="form-actions text-right">
+    {% if anon_checkout_allowed or request.user.is_authenticated %}
+    <div id="AmazonPayButton" style="margin-top:15px">One step (Shipping Address + Payment -> Confirmation ->) ===>&nbsp;&nbsp;</div>
+    <script type="text/javascript">
+    var authRequest, amazonOrderReferenceId;
+    OffAmazonPayments.Button("AmazonPayButton", "{{ amazon_payments_seller_id }}", {
+        type: "PwA",
+        size: "small",
+        agreementType: "BillingAgreement",
+        useAmazonAddressBook: true,
+        authorization: function() {
+            var loginOptions = {scope: 'profile payments:widget payments:shipping_address'};
+            authRequest = amazon.Login.authorize(loginOptions);
+        },
+        onSignIn: function(billingAgreement) {
+            // The following OAuth 2 response parameters will be
+            // included in the query string when the cusomers browser is
+            // redirected to the URL below: access_token, token_type, expires_in, and scope.
+            authRequest.onComplete('{% url "checkout:amazon-payments-login-onestep" %}?billing_agreement_id=' + billingAgreement.getAmazonBillingAgreementId());
+        },
+        onError: function(error) {
+            alert(error.getErrorCode() + ": " + error.getErrorMessage());
+        }
+    });
+    </script>
+    <div id="AmazonPayButton2" style="margin:15px 0">Multiple steps (Shipping Address -> Shipping Method -> Payment -> Preview -> Confirmation ->) ===>&nbsp;&nbsp;</div>
+    <script type="text/javascript">
+    var authRequest, amazonOrderReferenceId;
+    OffAmazonPayments.Button("AmazonPayButton2", "{{ amazon_payments_seller_id }}", {
+        type: "PwA",
+        size: "small",
+        agreementType: "BillingAgreement",
+        useAmazonAddressBook: true,
+        authorization: function() {
+            var loginOptions = {scope: 'profile payments:widget payments:shipping_address'};
+            authRequest = amazon.Login.authorize(loginOptions);
+        },
+        onSignIn: function(billingAgreement) {
+            // The following OAuth 2 response parameters will be
+            // included in the query string when the cusomers browser is
+            // redirected to the URL below: access_token, token_type, expires_in, and scope.
+            authRequest.onComplete('{% url "checkout:amazon-payments-login" %}?billing_agreement_id=' + billingAgreement.getAmazonBillingAgreementId());
+        },
+        onError: function(error) {
+            alert(error.getErrorCode() + ": " + error.getErrorMessage());
+        }
+    });
+    </script>
+    {% endif %}
+    <a href="{% url 'checkout:index' %}" class="pull-right btn btn-large btn-primary">{% trans "Proceed to checkout" %}</a>
+</div>
+{% endblock formactions %}
