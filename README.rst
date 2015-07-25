@@ -12,14 +12,15 @@ Tested with **Python 2.7**, **Django 1.6** and **django-oscar 0.7.3**.
 Setup
 -----
 Follow the instructions on configuring your website for Login and Pay with Amazon under
-http://docs.developer.amazonservices.com/en_US/apa_guide/APAGuide_GettingStarted.html.
+https://payments.amazon.com/documentation/lpwa/201749840#201749930.
 Note that the website setup requires the "Allowed JavaScript origin" to be a HTTPS
 URL, so you won't be able to test Amazon Payments integration with a site run using
 the Django runserver command.
 
 You will also need an Amazon MWS API key and secret key. These are used to 
 interact with the Amazon MWS Off-Amazon Payments API to actually process the
-payments. See http://docs.developer.amazonservices.com/en_US/off_amazon_payments/OffAmazonPayments_Overview.html
+payments. For more information on how to register for Amazon MWS, see
+http://docs.developer.amazonservices.com/en_US/dev_guide/DG_Registering.html
 
 Add 'amazon_payments' to your INSTALLED_APPS, and also add the following settings in your django settings:
 
@@ -46,16 +47,16 @@ checkout procedures:
    page if successful. Assumes there is one shipping method.
 2. **Multi-step checkout**: The default oscar checkout process.
 
-Automatic Payments
+Recurring Payments
 ------------------
-From http://docs.developer.amazonservices.com/en_US/pay_with_amazon_automatic_payments/APAGuide_Introduction.html:
+From https://payments.amazon.com/documentation/automatic/201752090:
 
-*With the automatic payments feature, buyers can pre-authorize payments for 
+*With the recurring payments feature, buyers can pre-authorize payments for 
 future purchases. This enables you to charge a buyer’s Amazon Payments account 
 on a regular basis for subscriptions and usage based billing without requiring 
 the buyer to authorize a payment each time.*
 
-Automatic payments are disabled by default. To enable such payments, override 
+Recurring payments are disabled by default. To enable such payments, override 
 the Basket model in your oscar project to add a "has_subscriptions" property 
 that returns True where appropriate. This has been done in the sandbox site, so
-you will see the "Automatic payments" widget during checkout.
+you will see the "Recurring payments" widget during checkout.
