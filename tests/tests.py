@@ -21,7 +21,7 @@ class APITestCase(TestCase):
         return response
 
 
-def SaveToDBTestCase(APITestCase):
+class SaveToDBTestCase(APITestCase):
 
     def setUp(self):
         super(SaveToDBTestCase, self).setUp()
