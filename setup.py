@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
 
-from amazon_payments import VERSION
-
 
 setup(
     name='django-oscar-amazon-payments',
-    version=VERSION,
+    version="0.1",
     url='https://github.com/simonkagwe/django-oscar-amazon-payments',
     author="Simon Kagwi",
     author_email="simonkagwe@yahoo.com",
