@@ -1,6 +1,10 @@
 {% extends "oscar/checkout/payment_details.html" %}
 {% load i18n %}
 
+{% block checkout_nav %}
+    {% include 'amazon_payments/nav.html' with step=3 %}
+{% endblock %}
+
 {% block extrahead %}
 <script type='text/javascript'>
 window.onAmazonLoginReady = function() {
