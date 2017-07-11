@@ -229,6 +229,9 @@ class AmazonShippingAddressView(AmazonCheckoutView, CheckoutSessionMixin,
             if amazon_shipping_address.AddressLine2:
                 address_fields["line2"] = amazon_shipping_address.AddressLine2\
                     .text
+            if amazon_shipping_address.Phone:
+                address_fields["phone_number"] = amazon_shipping_address\
+                    .Phone.text
             self.checkout_session.ship_to_new_address(address_fields)
             return redirect("checkout:amazon-payments-shipping-method")
         ctx = self.get_context_data()
@@ -535,6 +538,9 @@ class AmazonOneStepPaymentDetailsView(BaseAmazonPaymentDetailsView):
             if amazon_shipping_address.AddressLine2:
                 shipping_address.line2 = amazon_shipping_address.AddressLine2\
                     .text
+            if amazon_shipping_address.Phone:
+                shipping_address.phone_number = amazon_shipping_address\
+                    .Phone.text
             shipping_method = self.get_default_shipping_method(
                 self.request.basket)
             order_total = self.get_order_totals(
