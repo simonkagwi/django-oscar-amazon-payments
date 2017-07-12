@@ -47,6 +47,54 @@ RESPONSES = {
         <RequestId>d8b1ae53-1760-4ad3-b8ca-180fc4141cf3</RequestId>
       </ResponseMetadata>
     </GetBillingAgreementDetailsResponse>""",
+    "subscriptions_consent_given": """
+    <GetBillingAgreementDetailsResponse xmlns="http://mws.amazonservices.com/schema/OffAmazonPayments/2013-01-01">
+      <GetBillingAgreementDetailsResult>
+        <BillingAgreementDetails>
+          <AmazonBillingAgreementId>C01-9258635-6970398</AmazonBillingAgreementId>
+          <BillingAgreementStatus>
+            <State>Draft</State>
+          </BillingAgreementStatus>
+          <BillingAgreementConsent>true</BillingAgreementConsent>
+          <Destination>
+            <DestinationType>Physical</DestinationType>
+            <PhysicalDestination>
+              <StateOrRegion>CA</StateOrRegion>
+              <Phone>714538566</Phone>
+              <City>Beverly Hills</City>
+              <CountryCode>US</CountryCode>
+              <PostalCode>90210</PostalCode>
+              <Name>Simon Kagwi</Name>
+              <AddressLine1>P,O Box 104147</AddressLine1>
+              <AddressLine2>Line 2</AddressLine2>
+            </PhysicalDestination>
+          </Destination>
+          <SellerBillingAgreementAttributes/>
+          <Buyer>
+            <Name>Simon</Name>
+            <Email>test@example.com</Email>
+          </Buyer>
+          <ReleaseEnvironment>Sandbox</ReleaseEnvironment>
+          <CreationTimestamp>2016-11-26T16:05:22.431Z</CreationTimestamp>
+          <BillingAgreementLimits>
+            <TimePeriodStartDate>2016-11-01T00:00:00Z</TimePeriodStartDate>
+            <CurrentRemainingBalance>
+              <CurrencyCode>USD</CurrencyCode>
+              <Amount>500.00</Amount>
+            </CurrentRemainingBalance>
+            <AmountLimitPerTimePeriod>
+              <CurrencyCode>USD</CurrencyCode>
+              <Amount>500</Amount>
+            </AmountLimitPerTimePeriod>
+            <TimePeriodEndDate>2016-12-01T00:00:00Z</TimePeriodEndDate>
+          </BillingAgreementLimits>
+        </BillingAgreementDetails>
+      </GetBillingAgreementDetailsResult>
+      <ResponseMetadata>
+        <RequestId>187b2710-0c69-4782-992d-5402a8d11d29</RequestId>
+      </ResponseMetadata>
+    </GetBillingAgreementDetailsResponse>
+    """,
     "subscriptions_consent_not_given": """
     <GetBillingAgreementDetailsResponse xmlns="http://mws.amazonservices.com/schema/OffAmazonPayments/2013-01-01">
       <GetBillingAgreementDetailsResult>
@@ -70,7 +118,7 @@ RESPONSES = {
             </Constraint>
           </Constraints>
           <BillingAgreementConsent>false</BillingAgreementConsent>
-          <AmazonBillingAgreementId>C01-0537850-8892489</AmazonBillingAgreementId>
+          <AmazonBillingAgreementId>C01-9258635-6970398</AmazonBillingAgreementId>
           <BillingAgreementStatus>
             <State>Draft</State>
           </BillingAgreementStatus>
@@ -90,7 +138,7 @@ RESPONSES = {
           </Destination>
           <ReleaseEnvironment>Sandbox</ReleaseEnvironment>
           <Buyer>
-            <Email>simon@bixly.com</Email>
+            <Email>test@example.com</Email>
             <Name>Simon</Name>
           </Buyer>
           <CreationTimestamp>2015-03-20T13:47:53.169Z</CreationTimestamp>
@@ -117,7 +165,7 @@ RESPONSES = {
           </OrderReferenceStatus>
           <ReleaseEnvironment>Sandbox</ReleaseEnvironment>
           <Buyer>
-            <Email>simon@bixly.com</Email>
+            <Email>test@example.com</Email>
             <Name>Simon</Name>
           </Buyer>
           <SellerOrderAttributes/>
@@ -153,7 +201,7 @@ RESPONSES = {
           <SellerAuthorizationNote/>
           <CaptureNow>true</CaptureNow>
           <AuthorizationReferenceId>7-1426862604</AuthorizationReferenceId>
-          <SoftDescriptor>AMZ*simon-bixly</SoftDescriptor>
+          <SoftDescriptor>AMZ*simon-test</SoftDescriptor>
           <CreationTimestamp>2015-03-20T14:43:26.949Z</CreationTimestamp>
           <AuthorizationFee>
             <Amount>0.00</Amount>
@@ -191,7 +239,7 @@ RESPONSES = {
           <SellerAuthorizationNote/>
           <CaptureNow>true</CaptureNow>
           <AuthorizationReferenceId>7-1426862604</AuthorizationReferenceId>
-          <SoftDescriptor>AMZ*simon-bixly</SoftDescriptor>
+          <SoftDescriptor>AMZ*simon-test</SoftDescriptor>
           <CreationTimestamp>2015-03-20T14:43:26.949Z</CreationTimestamp>
           <AuthorizationFee>
             <Amount>0.00</Amount>
@@ -204,4 +252,26 @@ RESPONSES = {
       </ResponseMetadata>
     </GetAuthorizationDetailsResponse>
     """,
+    "confirm_billing_agreement": """
+    <ConfirmBillingAgreementResponse xmlns="http://mws.amazonservices.com/schema/OffAmazonPayments/2013-01-01">
+      <ConfirmBillingAgreementResult/>
+      <ResponseMetadata>
+        <RequestId>5ba4e7a9-2d33-4a7a-9585-5860e7748fc8</RequestId>
+      </ResponseMetadata>
+    </ConfirmBillingAgreementResponse>
+    """,
+    "validate_billing_agreement": """
+    <ValidateBillingAgreementResponse xmlns="http://mws.amazonservices.com/schema/OffAmazonPayments/2013-01-01">
+      <ValidateBillingAgreementResult>
+        <BillingAgreementStatus>
+          <LastUpdatedTimestamp>2016-11-26T16:08:44.832Z</LastUpdatedTimestamp>
+          <State>Open</State>
+        </BillingAgreementStatus>
+        <ValidationResult>Success</ValidationResult>
+      </ValidateBillingAgreementResult>
+      <ResponseMetadata>
+        <RequestId>49fc9ede-4c49-4883-bba1-953b699ca70a</RequestId>
+      </ResponseMetadata>
+    </ValidateBillingAgreementResponse>
+    """
 }
