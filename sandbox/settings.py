@@ -208,7 +208,6 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'django.contrib.staticfiles',
     # External apps
-    'django_extensions',
     'debug_toolbar',
     'compressor',
     'south',
