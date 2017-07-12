@@ -47,6 +47,33 @@ checkout procedures:
    page if successful. Assumes there is one shipping method.
 2. **Multi-step checkout**: The default oscar checkout process.
 
+Setting up the sandbox site:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1. Change directory to the sandbox directory
+2. Activate your virtualenv
+3. ``pip install -r requirements.txt``
+4. ``python manage.py syncdb``
+5. ``python manage.py migrate``
+6. ``python manage.py loaddata fixtures/countries.json``
+
+   The countries.json bundled with this project is different from the one
+   in oscar in that it sets is_shipping_country to True for all countries,
+   otherwise because of the validation we do for shipping addresses gotten
+   from Amazon you would get an error message for all countries except GB.
+
+7. ``python manage.py oscar_import_catalogue fixtures/catalogue.csv``
+8. ``mkdir -p public/media``
+9. Create the image_not_found.jpg file:
+
+   ``ln -s /<INSERT PATH TO OSCAR>/static/oscar/img/image_not_found.jpg public/media/``
+
+**Remember: Amazon Payments requires your "Allowed JavaScript origin" (one of
+the settings when you're setting up your Amazon Payments account) to be a HTTPS URL,
+so you will not be able to test the Amazon Payments functionality with a site
+run using Django's runserver. You can set up a simple webserver that uses a
+self-signed SSL certificate in something like nginx or Apache.**
+
+
 Recurring Payments
 ------------------
 From https://payments.amazon.com/documentation/automatic/201752090:
@@ -60,3 +87,17 @@ Recurring payments are disabled by default. To enable such payments, override
 the Basket model in your oscar project to add a "has_subscriptions" property 
 that returns True where appropriate. This has been done in the sandbox site, so
 you will see the "Recurring payments" widget during checkout.
+
+Testing
+-------
+::
+
+    mkvirtualenv <VIRTUALENV_NAME>
+    git clone https://github.com/simonkagwe/django-oscar-amazon-payments.git
+    cd django-oscar-amazon-payments
+    pip install -e .[oscar]
+    python setup.py test
+
+TODO
+----
+- Support newer versions of Django and Oscar
